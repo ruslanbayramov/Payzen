@@ -11,7 +11,7 @@ const userSchema = new mongoose.Schema({
         const isValid = /^[a-zA-Z]+$/.test(val);
         return isValid;
       },
-      message: 'Name can contain only letters',
+      message: 'Name can contain only letters.',
     },
     trim: true,
   },
@@ -29,13 +29,10 @@ const userSchema = new mongoose.Schema({
   email: {
     type: String,
     required: [true, 'Please provide an email'],
-    unique: [true, 'This email already used'],
-    validate: [validator.isEmail, 'This email is not valid'],
-    validate: [
-      validator.isLowercase,
-      'The email can not contain uppercase letters',
-    ],
+    unique: [true, 'The email already used'],
+    validate: [validator.isEmail, 'Not a valid email!'],
     trim: true,
+    lowercase: true,
   },
   password: {
     type: String,

@@ -2,6 +2,9 @@ const User = require('../models/userModel');
 
 exports.login = async (req, res) => {
   try {
+    if (!req.body.email) throw new Error('Please enter your email');
+    if (!req.body.password) throw new Error('Please enter your password');
+
     const user = await User.findOne({ email: req.body.email });
     if (!user) throw new Error('User did not exist!');
 

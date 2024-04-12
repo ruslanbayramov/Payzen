@@ -4,11 +4,18 @@ import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { login } from "../services/userApi";
+import { useDispatch } from "react-redux";
+import {
+  defineEmail,
+  defineName,
+  defineSurname,
+} from "../features/auth/userSlice";
 
 function Login() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   function handleSubmit(e: any) {
     e.preventDefault();
@@ -17,8 +24,12 @@ function Login() {
       const notify = () => toast(data.message);
       notify();
 
-      if (data.status === "success")
-        setTimeout(() => navigate("/signup"), 2000);
+      if (data.status === "success") {
+        dispatch(defineName(data.user.name));
+        dispatch(defineSurname(data.user.surname));
+        dispatch(defineEmail(data.user.email));
+        setTimeout(() => navigate("/dashboard"), 2000);
+      }
     });
   }
 
@@ -51,7 +62,11 @@ function Login() {
             value={password}
             onChange={(e: any) => setPassword(e.target.value)}
           />
-          <Link to="forgotpassword" className="text-[#0B2033] block underline">
+          <Link
+            to="forgotpassword"
+            replace
+            className="text-[#0B2033] block underline"
+          >
             Forgot password ?
           </Link>
           <button
@@ -67,6 +82,7 @@ function Login() {
         <p className="inline-block">Don't have account ?</p>
         <Link
           to="/signup"
+          replace
           className="text-[#FF6D28] hover:text-[#e66224] transition-colors duration-300"
         >
           Sign up
