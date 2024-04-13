@@ -4,12 +4,14 @@ type state = {
   name: string;
   surname: string;
   email: string;
+  isLoggedIn: boolean;
 };
 
 const initialState: state = {
   name: "",
   surname: "",
   email: "",
+  isLoggedIn: false,
 };
 
 const userSlice = createSlice({
@@ -25,9 +27,13 @@ const userSlice = createSlice({
     defineEmail(state, action) {
       state.email = action.payload;
     },
+    defineLoggedIn(state) {
+      state.isLoggedIn = true;
+    },
   },
 });
 
 export default userSlice.reducer;
 
-export const { defineName, defineSurname, defineEmail } = userSlice.actions;
+export const { defineName, defineSurname, defineEmail, defineLoggedIn } =
+  userSlice.actions;

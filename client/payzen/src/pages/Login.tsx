@@ -7,6 +7,7 @@ import { login } from "../services/userApi";
 import { useDispatch } from "react-redux";
 import {
   defineEmail,
+  defineLoggedIn,
   defineName,
   defineSurname,
 } from "../features/auth/userSlice";
@@ -28,6 +29,7 @@ function Login() {
         dispatch(defineName(data.user.name));
         dispatch(defineSurname(data.user.surname));
         dispatch(defineEmail(data.user.email));
+        dispatch(defineLoggedIn());
         setTimeout(() => navigate("/dashboard"), 2000);
       }
     });

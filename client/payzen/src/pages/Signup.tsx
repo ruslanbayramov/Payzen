@@ -2,6 +2,8 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { signup } from "../services/userApi";
 import { ToastContainer, toast } from "react-toastify";
+import { defineLoggedIn } from "../features/auth/userSlice";
+import { useDispatch } from "react-redux";
 
 function Signup() {
   const [name, setName] = useState<string>("");
@@ -10,6 +12,7 @@ function Signup() {
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
 
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   function handleSubmit(e: any) {
@@ -20,8 +23,10 @@ function Signup() {
         const notify = () => toast(data.message);
         notify();
 
-        if (data.status === "success")
+        if (data.status === "success") {
+          dispatch(defineLoggedIn());
           setTimeout(() => navigate("/login"), 2000);
+        }
       }
     );
   }
